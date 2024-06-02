@@ -1,9 +1,11 @@
 package com.example.baseadapterapp;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 public class MyCustomAdapter extends BaseAdapter {
 
@@ -33,10 +35,33 @@ public class MyCustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+
+        ViewHolder holder;
+
+        if (convertView == null){
+            // ConvertView: is a recycled view that you can reuse to improve the performances of your list
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_layout,parent,false);
+
+            holder = new ViewHolder();
+            holder.textView = convertView.findViewById(R.id.list_item);
+            convertView.setTag(holder);
+
+        }else {
+            // Reusing the view (that's recycled)
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+
+        // Set the data to the view
+        holder.textView.setText(items[position]);
+
+        return convertView;
+
     }
 
     static class ViewHolder{
         // Holds references to the views within an item layout
+        TextView textView;
+
     }
 }
